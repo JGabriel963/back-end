@@ -108,3 +108,11 @@ section.aprendendo img {
     display: block;
     margin: auto;
 }
+
+#indicator {
+    background-color: var(--primary-color);
+    height: .35rem;
+    width: 0;
+    position: fixed;
+    top: 0;
+}
