@@ -1,0 +1,3 @@
+Contrato da API
+PATH       METHOD DESCRIPTION   RETURN   BODY
+"/hello"   GET    Boas vindas!  200 --> "Olá, Seja bem-vindo!
