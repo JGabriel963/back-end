@@ -8,7 +8,6 @@ class App {
         this.server = express();
 
         connectDatabase()
-
         this.middlewares();
         this.routes();
     }
