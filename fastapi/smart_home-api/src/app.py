@@ -5,13 +5,14 @@ app = FastAPI()
 
 ambientes = []
 
-proximo_id = 0
+ambiente_id = 0
+dispositivo_id = 0
 
 class Dispositivo(BaseModel):
     description: str
-    icone: str
-    estado_conexao: str
-    status: bool
+    icone: int | None
+    estado_conexao: str | None
+    status: bool | None
 
 class Ambiente(BaseModel):
     descricao: str
@@ -31,18 +32,20 @@ def show_ambiente():
 
 @app.post('/ambientes', status_code=status.HTTP_201_CREATED)
 def criar_ambiente(ambiente: Ambiente):
-    global proximo_id
-    ambiente.icone = proximo_id
-    proximo_id += 1
+    global ambiente_id
+    ambiente.icone = ambiente_id
+    ambiente_id += 1
     ambientes.append(ambiente)
     return ambiente
 
 @app.put('/ambientes/{id}', status_code=status.HTTP_200_OK)
-def atualizar_dispositivos(id: int, ambiente: Ambiente):
+def atualizar_ambientes(id: int, ambiente: Ambiente):
     ambienteId = buscar_ambiente(id)
     if not ambienteId:
         raise HTTPException(status_code=404, detail='Ambiente não encontrado')
-    ambienteId = ambiente
+    ambienteId.descricao = ambiente.descricao
+
+    return ambienteId
     
 
 @app.delete('/ambientes/{id}')
@@ -50,9 +53,40 @@ def remover_ambiente(id: int):
     ambiente = buscar_ambiente(id)
     if not ambiente:
         raise HTTPException(status_code=404, detail='Ambiente não encontrado')
-    ambientes.remove(ambiente)
+    if len(ambiente.items) != 0:
+        raise HTTPException(status_code=401, detail="Ambiente não pode ser removido")
+    else:
+        ambientes.remove(ambiente)
 
 '''Área Dispositivo'''
 @app.post('/ambientes/{id}/dispositivos')
-def hello():
-    return { "message": "Hello"}
+def adicionar_dispositivo(id: int, dispositivo: Dispositivo):
+    global dispositivo_id
+    dispositivo.icone = dispositivo_id
+    dispositivo_id += 1
+    ambiente = buscar_ambiente(id)
+    if not ambiente:
+        raise HTTPException(status_code=404, detail='Ambiente não encontrado')
+    ambiente.items.append(dispositivo)
+    return ambiente.items
+
+def buscar_dispositivo(id, ambiente):
+    for item in ambiente.items:
+        if item.icone == id:
+            return item
+    return None
+
+@app.put('/ambientes/{ambiente_id}/dispositivos/{dispositivo_id}/mover/{destino_id}')
+def mover_dispositivo(ambiente_id: int, dispositivo_id: int, destino_id: int):
+    origem = buscar_ambiente(ambiente_id)
+    destino = buscar_ambiente(destino_id)
+    dispositivo = buscar_dispositivo(dispositivo_id, origem)
+
+    if not origem and not destino and not dispositivo:
+        raise HTTPException(status_code=404, detail="Error ao buscar dados")
+        
+    origem.items.remove(dispositivo)
+    destino.items.append(dispositivo)
+    
+
+    
