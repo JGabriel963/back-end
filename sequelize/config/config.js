@@ -6,7 +6,5 @@ module.exports = {
     database: 'curso_sequelize',
     define: {
         timestamps: true,
-        underscored: true,
-        underscoredAll: true,
     },
 };
