@@ -2,15 +2,13 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 import express from "express"
+import { router } from './routes'
 
 const app = express()
 
-const router = express.Router()
-
-router.get("/", (req, res) => res.json({ hello: "Hello, world!" }))
-
-app.use(router)
+// Midiallwears
 app.use(express.json())
+app.use(router)
 
 const PORT = process.env.PORT || 3000
 
