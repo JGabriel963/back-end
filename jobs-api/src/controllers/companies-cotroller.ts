@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Company } from "../models/company";
+import { Company } from "../models";
 
 export const companiesController = {
   index: async (req: Request, res: Response) => {
@@ -38,7 +38,7 @@ export const companiesController = {
     const { id } = req.params 
 
     try {
-        const company = await Company.findByPk(id)
+        const company = await Company.findByPk(id, { include: 'jobs' })
 
         if (!company) {
             return res.status(404).json({error: "Company not found :("})
@@ -87,7 +87,7 @@ export const companiesController = {
           return res.status(404).json({ error: "Company not found :("})
         }
 
-        company.destroy()
+        await company.destroy()
         return res.status(204).send()
       } catch (error) {
         if (error instanceof Error) {
