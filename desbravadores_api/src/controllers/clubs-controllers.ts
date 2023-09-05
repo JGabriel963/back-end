@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Club } from "../models/club";
+import { Club } from "../models";
 import * as Yup from "yup";
 
 export const ClubsController = {
@@ -53,7 +53,7 @@ export const ClubsController = {
     const { id } = req.params
 
     try {
-        const club = await Club.findByPk(id)
+        const club = await Club.findByPk(id, { include: "desbravadores"})
 
         if (!club) {
             return res.status(404).json({ error: "Club not found :("})
