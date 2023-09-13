@@ -1,12 +1,12 @@
 from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel
+from database.index import obter_engine
+
 
 app = FastAPI()
 
-ambientes = []
+engine = obter_engine()
 
-ambiente_id = 0
-dispositivo_id = 0
 
 class Dispositivo(BaseModel):
     description: str
