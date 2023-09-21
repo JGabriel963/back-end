@@ -45,7 +45,11 @@ export const StudentService = {
             return student
         }
 
-        const students = await prismaClient.student.findMany()
+        const students = await prismaClient.student.findMany({
+            include: {
+                school: true
+            }
+        })
 
         return students
     },

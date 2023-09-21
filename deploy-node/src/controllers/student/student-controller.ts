@@ -36,7 +36,7 @@ export const StudentController = {
             id
         })
 
-        return student
+        return res.json(student)
     },
 
     delete: async (req: Request, res: Response) => {
