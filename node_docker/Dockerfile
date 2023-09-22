@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:17
 
 WORKDIR /usr/server
 
@@ -9,6 +9,8 @@ RUN npm install
 COPY . .
 
 RUN npm run build
+
+RUN npx prisma generate
 
 EXPOSE 3000
 
