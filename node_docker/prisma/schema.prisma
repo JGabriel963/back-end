@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Club {
+  id Int @id @default(autoincrement())
+  name String 
+  director String
+  active Boolean
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  @@map("clubs")
+  desbravadores Desbravador[]
+}
+
+model Desbravador {
+  id Int @id @default(autoincrement())
+  name String
+  cpf String
+  date_birth String
+  email String?
+  phone String?
+  active Boolean
+
+  club Club @relation(fields: [club_id], references: [id])
+
+  @@map("desbravadores")
+  club_id Int
+}
