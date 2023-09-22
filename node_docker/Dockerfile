@@ -4,7 +4,9 @@ WORKDIR /usr/server
 
 COPY package*.json ./
 
-RUN npm ci && npm run build
+RUN npm install
+
+RUN npm run build
 
 COPY . .
 
