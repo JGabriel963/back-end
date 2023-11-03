@@ -1,0 +1,22 @@
+POST http://localhost:3333/users
+Content-Type: application/json
+
+{
+  "name": "João",
+  "username": "JGabriel",
+  "password": "123123"
+}
+
+###
+POST http://localhost:3333/login
+Content-Type: application/json
+
+{
+  "username": "JGabriel",
+  "password": "123123"
+}
+
+###
+GET http://localhost:3333/users/profile
+Content-Type: application/json
+Authorization: Barear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTg5NzU4MzYsInN1YiI6ImJjNGUzOWU0LTg1MzUtNGQ0My05NmQzLThjMGYyMDNjMDYzYSJ9.81U7jajkGJk3dZCj00Zi_ugYkGlftX9LBnB48f2hshg
